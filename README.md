@@ -1,2 +1,2 @@
 # Ticket-Reservation-Management-System
-offline ticket reservation management system using java and SQLite
+offline ticket reservation management system using Java, JavaFX for GUI, and SQLite

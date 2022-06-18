@@ -1,4 +1,4 @@
-# Ticket-Reservation-Management-System
+# Ticket Reservation Management System
 ## Overview
 - Offline ticket reservation management system using Java, JavaFX for GUI, and SQLite.
 - It is an application for managing ticket reservation of clients for any event.
@@ -32,7 +32,6 @@ tickets.
 
 #### I Will upload it soon
 
-##
 [^1]: Each client has a unique serial number and data (client's name, national ID, gender, mobile, his previous attended events, his upcoming events). 
 [^2]: searching for him using his name or by using his serial number.
 [^3]: Search all events that contains this key word

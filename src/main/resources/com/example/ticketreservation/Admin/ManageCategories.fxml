@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.ticketreservation.SystemManager">
+  <tabs>
+    <Tab text="Categories">
+         <content>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <Text layoutX="88.0" layoutY="69.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter category name:" />
+                  <TextField fx:id="name" layoutX="251.0" layoutY="51.0" prefHeight="26.0" prefWidth="218.0" />
+                  <Button layoutX="469.0" layoutY="290.0" mnemonicParsing="false" onAction="#removeCategory" text="Remove" />
+                  <Button layoutX="379.0" layoutY="290.0" mnemonicParsing="false" onAction="#addCategory" text="Add" />
+                  <Button layoutX="59.0" layoutY="290.0" mnemonicParsing="false" onAction="#goBackAdminHome" text="Back to Home" />
+                  <Label fx:id="label" layoutX="251.0" layoutY="177.0" />
+               </children>
+            </AnchorPane>
+         </content></Tab>
+    <Tab text="Edit">
+         <content>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <Text layoutX="85.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter category name:" />
+                  <TextField fx:id="name1" layoutX="264.0" layoutY="47.0" prefHeight="26.0" prefWidth="213.0" />
+                  <Button layoutX="425.0" layoutY="239.0" mnemonicParsing="false" onAction="#editCategory" text="Edit name" />
+                  <Button layoutX="76.0" layoutY="239.0" mnemonicParsing="false" onAction="#goBackAdminHome" text="Back to home" />
+                  <Text layoutX="85.0" layoutY="118.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter new category name:" />
+                  <TextField fx:id="name2" layoutX="264.0" layoutY="100.0" prefHeight="26.0" prefWidth="213.0" />
+                  <Label fx:id="label1" layoutX="236.0" layoutY="177.0" />
+               </children>
+            </AnchorPane>
+         </content></Tab>
+  </tabs>
+</TabPane>

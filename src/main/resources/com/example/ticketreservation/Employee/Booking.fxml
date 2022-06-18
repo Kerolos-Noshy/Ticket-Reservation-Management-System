@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Text?>
+
+<GridPane hgap="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" vgap="10.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.ticketreservation.SystemManager">
+  <columnConstraints>
+    <ColumnConstraints />
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="263.5999755859375" minWidth="10.0" prefWidth="136.00003662109376" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="387.5999755859375" minWidth="10.0" prefWidth="343.9999633789063" />
+  </columnConstraints>
+  <rowConstraints>
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+  </rowConstraints>
+   <children>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Enter Client Name:" GridPane.columnIndex="1" />
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Enter category name:" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Enter event name:" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+      <FlowPane hgap="10.0" prefHeight="200.0" prefWidth="200.0" vgap="10.0" GridPane.columnIndex="2" GridPane.rowIndex="4">
+         <children>
+            <Button mnemonicParsing="false" onAction="#bookEvent" prefHeight="30.0" prefWidth="75.0" text="Book" />
+            <Button mnemonicParsing="false" onAction="#unbookEvent" prefHeight="30.0" prefWidth="75.0" text="Unbook" />
+         </children>
+         <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </padding>
+      </FlowPane>
+      <Button mnemonicParsing="false" onAction="#goBackEmployeeHome" text="Back to home" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+      <TextField fx:id="name" GridPane.columnIndex="2" />
+      <TextField fx:id="name1" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+      <TextField fx:id="name2" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+      <Label fx:id="label" style="-fx-alignment: center;" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+   </children>
+   <padding>
+      <Insets bottom="20.0" left="40.0" right="60.0" top="20.0" />
+   </padding>
+</GridPane>

@@ -12,7 +12,6 @@ public class Client
     private String id;
     private String gender;
     private String  clientMobile;
-
     private final int serialNumber;
 
     public Client(String clientName, String id, String gender, String clientMobile,int number) {
@@ -23,8 +22,7 @@ public class Client
         serialNumber = number;
     }
 
-
-    public static boolean isClientExist(String clientName, Label label, Connection connection) {
+    public static boolean isClientExist(String clientName, Connection connection) {
         ResultSet resultSet;
         try {
             Statement statement = connection.createStatement();

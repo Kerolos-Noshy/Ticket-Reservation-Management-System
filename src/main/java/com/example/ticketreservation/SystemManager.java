@@ -36,7 +36,6 @@ public class SystemManager {
     private TextField name3;
     @FXML
     private TextField name4;
-
     @FXML
     private TextField age;
     @FXML
@@ -55,7 +54,6 @@ public class SystemManager {
     private TextField number;
     @FXML
     private TextField number1;
-
     @FXML
     private TextField password;
     @FXML
@@ -70,30 +68,24 @@ public class SystemManager {
     private TextField etime;
     @FXML
     private TextField etime1;
-    private static ArrayList<Admin> admins = new ArrayList<>();
-    private static ArrayList<Employee> employees = new ArrayList<>();
-    private static ArrayList<Client> clients = new ArrayList<>();
-    private static ArrayList<Category> categories = new ArrayList<>();
 
-    TicketReservation main;
 
-    public SystemManager() {
-    }
+
 
     // User Type Page
     @FXML
     private void goAdmin() throws IOException {
-        main.adminLogin();
+        TicketReservation.adminLogin();
     }
 
     @FXML
     private void goEmployee() throws IOException {
-        main.employeeLogin();
+        TicketReservation.employeeLogin();
     }
 
     @FXML
     private void goBackLogin() throws IOException {
-        main.employeeLogin();
+        TicketReservation.employeeLogin();
     }
 
 
@@ -106,7 +98,7 @@ public class SystemManager {
             ResultSet resultSet = statement.executeQuery("SELECT * FROM admins");
             while (resultSet.next()) {
                 if (resultSet.getString(1).equals(username.getText()) && resultSet.getString(2).equals(password.getText()))
-                    main.adminHome();
+                    TicketReservation.adminHome();
                 else
                     label.setText("Wrong username or password!");
             }
@@ -125,7 +117,7 @@ public class SystemManager {
             ResultSet resultSet = statement.executeQuery("SELECT * FROM employees");
             while (resultSet.next()) {
                 if (resultSet.getString(1).equals(username.getText()) && resultSet.getString(2).equals(password.getText()))
-                    main.employeeHome();
+                    TicketReservation.employeeHome();
                 else
                     label.setText("Wrong username or password!");
             }
@@ -139,7 +131,7 @@ public class SystemManager {
     // Employee Registration Page
     @FXML
     private void employeeRegistration() throws IOException {
-        main.employeeRegister();
+        TicketReservation.employeeRegister();
     }
 
     @FXML
@@ -174,11 +166,12 @@ public class SystemManager {
     //Clients
     @FXML
     private void goClients() throws IOException {
-        main.showEmployeeClients();
+        TicketReservation.showEmployeeClients();
     }
 
     @FXML
     private void addClient() {
+        Statement statement;
             try {
                 preparedStatement = connection.prepareStatement("insert into clients(SerialNumber, clientName, clientId, clientGender, clientMobile)values(?,?,?,?,?)");
                 preparedStatement.setString(2, name.getText());
@@ -201,9 +194,8 @@ public class SystemManager {
                      label.setText(e.getMessage());
                 }
                  */
-
-                Statement statement1 = connection.createStatement();
-                ResultSet resultSet1 = statement1.executeQuery("select serialNumber from clients where clientName = '" + name.getText() + "'");
+                statement = connection.createStatement();
+                ResultSet resultSet1 = statement.executeQuery("select serialNumber from clients where clientName = '" + name.getText() + "'");
                 resultSet1.next();
                 int clientSerialNumber = resultSet1.getInt(1);
                 label.setText(String.valueOf(clientSerialNumber));
@@ -211,10 +203,10 @@ public class SystemManager {
             }
             catch (SQLException e) {
                 try{
-                    Statement statement1 = connection.createStatement();
-                    ResultSet resultSet1 = statement1.executeQuery("select serialNumber from clients where clientName = '" + name.getText() + "'");
-                    resultSet1.next();
-                    int clientSerialNumber = resultSet1.getInt(1);
+                    statement = connection.createStatement();
+                    ResultSet resultSet = statement.executeQuery("select serialNumber from clients where clientName = '" + name.getText() + "'");
+                    resultSet.next();
+                    int clientSerialNumber = resultSet.getInt(1);
                     label.setText(String.valueOf(clientSerialNumber));
                     throw new AlreadyExist("Client already exist and his serial number is : " + clientSerialNumber);
                 }
@@ -274,14 +266,10 @@ public class SystemManager {
     // retrieve client by serial number or name
     private void retrieveClient() {
         try {
-            System.out.println(1);
             Statement statement = connection.createStatement();
-            System.out.println(2);
             ResultSet resultSet, resultSet1;
             resultSet = statement.executeQuery("select serialNumber from clients where serialNumber = '" + name6.getText() + "' or clientName = '" + name6.getText() + "'");
             int clientSerialNumber = resultSet.getInt(1);
-            System.out.println(clientSerialNumber);
-
             resultSet1 = statement.executeQuery("SELECT * FROM clients where serialNumber = '" + clientSerialNumber + "'");
             resultSet1.next();
             String clientName = resultSet.getString(2);
@@ -327,16 +315,17 @@ public class SystemManager {
         }
     }
 
-
     //Events
     @FXML
     private void goEvents() throws IOException {
-        main.showEmployeeEvents();
+        TicketReservation.showEmployeeEvents();
     }
+
     @FXML
     private void searchEvent()  {
-            Category.searchEvent(name.getText(), label, connection);
+            Event.searchEvent(name.getText(), label, connection);
     }
+
     @FXML
     private void viewEvent() {
         boolean flag = false;
@@ -347,7 +336,7 @@ public class SystemManager {
                 String categoryName = resultSet.getString(1);
                 if (categoryName.equals(name1.getText())) {
 
-                    Category.viewEvent(name2.getText(), label1, connection);
+                    Category.viewEvents(name2.getText(), label1, connection);
                     flag = true;
                 }
             }
@@ -361,42 +350,32 @@ public class SystemManager {
         }
     }
 
-
     @FXML
     private void retrieveEvent() {
-        boolean flag = false;
-        if (Category.isCategoryExist(name3.getText() , label2 ,connection)){
-
-        }
-
-            for (int i = 0; i < categories.size(); i++) {
-                if (categories.get(i).getCategoryName().equals(name3.getText())) {
-                    categories.get(i).retrieveEvent(name3.getText(), label2,connection);
-                    flag = true;
-                }
-            }
-        try {
-            if (flag == false)
+        if (Category.isCategoryExist(name3.getText() ,connection)){
+            Event.retrieveEvent(name3.getText(), label2, connection);
+        } else {
+            try {
                 throw new NotFound(name3.getText());
-        }
-        catch (NotFound e){
-            label2.setText(e.getMessage());
+            } catch (NotFound e) {
+                label2.setText(e.getMessage());
+            }
         }
     }
-
 
     //Booking
     @FXML
     private void goBooking() throws IOException {
-        main.showEmployeeBooking();
+        TicketReservation.showEmployeeBooking();
     }
+
     @FXML
     private void bookEvent() {
         try {
-        if (Client.isClientExist(name.getText(), label, connection)){
-            if (Category.isCategoryExist(name1.getText(), label,connection)) {
-                if (Category.isEventExist(name2.getText(), label, connection)) {
-                    if (Event.isEventBooked(name2.getText(), name.getText(), label, connection) == false) {
+        if (Client.isClientExist(name.getText(), connection)){
+            if (Category.isCategoryExist(name1.getText(),connection)) {
+                if (Event.isEventExist(name2.getText(), connection)) {
+                    if (Event.isEventBooked(name2.getText(), name.getText(), connection) == false) {
                         ResultSet resultSet;
 
                             Statement statement = connection.createStatement();
@@ -455,10 +434,10 @@ public class SystemManager {
     public void unbookEvent() {
         Statement statement;
         try {
-            if (Client.isClientExist(name.getText(), label, connection)){
-                if (Category.isCategoryExist(name1.getText(), label,connection)) {
-                    if (Category.isEventExist(name2.getText(), label, connection)) {
-                        if (Event.isEventBooked(name2.getText(), name.getText(), label, connection)) {
+            if (Client.isClientExist(name.getText(), connection)){
+                if (Category.isCategoryExist(name1.getText(),connection)) {
+                    if (Event.isEventExist(name2.getText(), connection)) {
+                        if (Event.isEventBooked(name2.getText(), name.getText(), connection)) {
                             ResultSet resultSet;
 
                             statement = connection.createStatement();
@@ -496,7 +475,7 @@ public class SystemManager {
 
     @FXML
     private void goBackEmployeeHome() throws IOException {
-        main.employeeHome();
+        TicketReservation.employeeHome();
     }
 
     // Admin Home Page
@@ -504,12 +483,12 @@ public class SystemManager {
     //Categories
     @FXML
     private void goManageCategories() throws IOException {
-        main.manageCategory();
+        TicketReservation.manageCategory();
     }
     @FXML
     private void addCategory() {
         try{
-            if (!Category.isCategoryExist(name.getText(), label, connection)) {
+            if (!Category.isCategoryExist(name.getText(), connection)) {
                 preparedStatement = connection.prepareStatement("insert into categories(categoryName)values(?)");
                 preparedStatement.setString(1, name.getText());
                 preparedStatement.executeUpdate();
@@ -528,7 +507,7 @@ public class SystemManager {
     @FXML
     private void removeCategory() {
         try {
-            if (Category.isCategoryExist(name.getText(),label, connection)) {
+            if (Category.isCategoryExist(name.getText(), connection)) {
                 preparedStatement = connection.prepareStatement("DELETE FROM categories where categoryName = '" + name.getText() + "'");
                 preparedStatement.executeUpdate();
                 preparedStatement = connection.prepareStatement("DELETE FROM events WHERE category = '" + name.getText() + "'");
@@ -551,9 +530,9 @@ public class SystemManager {
         Statement statement;
         try {
             // check if category exist
-            if (Category.isCategoryExist(name1.getText(), label, connection)) {
+            if (Category.isCategoryExist(name1.getText(), connection)) {
                 // check if new category name is already exist
-                if (!Category.isCategoryExist(name2.getText(), label, connection)) {
+                if (!Category.isCategoryExist(name2.getText(), connection)) {
                     ResultSet resultSet;
                     statement = connection.createStatement();
                     preparedStatement = connection.prepareStatement("update categories set categoryName = '" + name2.getText() + "' WHERE categoryName = '" + name1.getText() + "'");
@@ -586,7 +565,7 @@ public class SystemManager {
     //Events
     @FXML
     private void goManageEvents() throws IOException {
-        main.manageEvents();
+        TicketReservation.manageEvents();
     }
     private Date localDate;
     private Date localDate1;
@@ -605,8 +584,8 @@ public class SystemManager {
     @FXML
     private void addEvent() {
         try {
-            if (Category.isCategoryExist(name.getText(), label, connection)) {
-                if (!Category.isEventExist(name1.getText(), label, connection)) {
+            if (Category.isCategoryExist(name.getText(), connection)) {
+                if (!Event.isEventExist(name1.getText(), connection)) {
                     preparedStatement = connection.prepareStatement("insert into events(category,eventName,location,availableTickets,day,month,year,startTime,endTime)values(?,?,?,?,?,?,?,?,?)");
                     preparedStatement.setString(1, name.getText());
                     preparedStatement.setString(2, name1.getText());
@@ -640,8 +619,8 @@ public class SystemManager {
     @FXML
     public void removeEvent() {
         try {
-            if (Category.isCategoryExist(name3.getText(), label, connection)) {
-                if (Category.isEventExist(name4.getText(), label, connection)) {
+            if (Category.isCategoryExist(name3.getText(), connection)) {
+                if (Event.isEventExist(name4.getText(), connection)) {
                     PreparedStatement preparedStatement;
                         preparedStatement = connection.prepareStatement("DELETE FROM events where eventName = '" + name4.getText() + "' and category = '" + name3.getText() + "'");
                         preparedStatement.executeUpdate();
@@ -666,8 +645,8 @@ public class SystemManager {
         Statement statement;
         ResultSet resultSet;
         try {
-            if (Category.isCategoryExist(name5.getText(), label, connection)) {
-                if (Category.isEventExist(name6.getText(), label, connection)) {
+            if (Category.isCategoryExist(name5.getText(), connection)) {
+                if (Event.isEventExist(name6.getText(), connection)) {
                     preparedStatement = connection.prepareStatement("update events set eventName = '" + name7.getText() + "' WHERE eventName = '" + name6.getText() + "'");
                     preparedStatement.executeUpdate();
                     statement = connection.createStatement();
@@ -721,9 +700,9 @@ public class SystemManager {
     @FXML
     public void showOldData(){
         try {
-            if (Category.isCategoryExist(name5.getText(), label, connection)) {
-                if (Category.isEventExist(name6.getText(), label, connection)) {
-                    String[] eventData = Category.getEventData(name6.getText(), connection);
+            if (Category.isCategoryExist(name5.getText(), connection)) {
+                if (Event.isEventExist(name6.getText(), connection)) {
+                    String[] eventData = Event.getEventData(name6.getText(), connection);
                     if (eventData != null) {
                         name8.setText(eventData[0]);
                         number1.setText(eventData[1]);
@@ -745,12 +724,12 @@ public class SystemManager {
     }
     @FXML
     private void goBackAdminHome() throws IOException {
-        main.adminHome();
+        TicketReservation.adminHome();
     }
 
     //Logout
     @FXML
     private void logOut() throws IOException {
-        main.userType();
+        TicketReservation.userType();
     }
 }

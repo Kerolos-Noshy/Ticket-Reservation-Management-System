@@ -1,7 +1,7 @@
 # Ticket Reservation Management System
 ## Overview
 - Offline ticket reservation management system using Java, JavaFX for GUI, and SQLite.
-- It is an application for managing ticket reservation of clients for any event.
+- It's an application for managing ticket reservation of clients for any event.
 
 - This system will be used by the call center employees who work inside the agency. So, the
 client will call the call center employee and ask him to book a ticket for a specific event in a

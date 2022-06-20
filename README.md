@@ -37,7 +37,7 @@ tickets.
 2. SDK: Oracle OpenJDK (version 18.0.1)
 
 ## Prerequisites
-1. Java SDK - as per your choice (Oracle JDK version 18 preferred)
+1. Java SDK (Oracle JDK version 18 preferred)
 2. IDE - as per your choice (IntelliJ preferred)
 3. SQLite JDBC driver [Download Link](https://github.com/Kerolos-Noshy/Ticket-Reservation-Management-System/raw/main/sqlite%20jar%20file/sqlite-jdbc-3.38.1.jar)
 

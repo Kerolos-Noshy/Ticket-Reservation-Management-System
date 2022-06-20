@@ -43,7 +43,7 @@ tickets.
 
 ## How to use this repository
 1. Fork it.
-2. Click on Clone or download button in top right corner.
+2. Click on Code button in top right corner (the green button).
 3. Download zip.
 4. Extract.
 5. Open IntelliJ and Import Project

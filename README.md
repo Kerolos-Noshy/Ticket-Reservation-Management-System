@@ -14,6 +14,8 @@ and any kind of events, etc.
 - Each event has a name, place, time, and description for the event, number of available
 tickets.
 
+- :point_right: **_Upcoming events_ turn into _previous events_ When their date becomes past.** :point_left:
+
 ## Features
 1. Admin
    - Sign in and sign out of the system

@@ -67,12 +67,12 @@ tickets.
 
 4. Events
    - Match Category
-      - CAF CL Final
-      - Cup Final
+     - CAF CL Final
+     - Cup Final
       
    - Movie Category
-      - Avengers: End Game Final
-      - Batman
+     - Avengers: End Game Final
+     - Batman
 #
 ## Screenshots
 ![Home Page](https://github.com/Kerolos-Noshy/Ticket-Reservation-Management-System/blob/main/screen%20shots/screen%20shots/home%20page.png)

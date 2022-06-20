@@ -19,7 +19,7 @@ tickets.
    - Sign in and sign out of the system
    - Add/ edit/ delete category of event.
    - Add / edit / delete event inside a specific category.
-3. Employee
+2. Employee
    - Resister, Sign in and sign out of the system.
    - Add a new registered client in the system.[^1]
    - Remove a client from the system.

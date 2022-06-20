@@ -69,7 +69,6 @@ tickets.
 
 ![Search Events](https://github.com/Kerolos-Noshy/Ticket-Reservation-Management-System/blob/main/screen%20shots/screen%20shots/employee/search%20event.png)
 
-
 [^1]: Each client has a unique serial number and data (client's name, national ID, gender, mobile, his previous attended events, his upcoming events). 
 [^2]: searching for him using his name or by using his serial number.
 [^3]: Search all events that contains this key word

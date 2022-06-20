@@ -44,11 +44,10 @@ public class Event
         return false;
     }
 
-    public static void retrieveEvent(String categoryName,Label label, Connection connection) {
+    public static void retrieveEvent(String categoryName,Label label, Statement statement) {
         String events ="";
         int counter = 1;
         try {
-            Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM events WHERE category ='" + categoryName + "'");
             while (resultSet.next()) {
                 String eventName = resultSet.getString(2);
@@ -77,11 +76,10 @@ public class Event
         return false;
     }
 
-    public static String[] getEventData(String eventName, Connection connection){
+    public static String[] getEventData(String eventName, Statement statement){
         String[] eventData =  null;
         ResultSet resultSet;
         try {
-            Statement statement = connection.createStatement();
             resultSet = statement.executeQuery("SELECT * FROM events WHERE eventName = '" + eventName + "'");
             resultSet.next();
             String location = resultSet.getString(3);
@@ -100,11 +98,10 @@ public class Event
         return eventData;
     }
 
-    public static void searchEvent(String eventName, Label label,Connection connection) {
+    public static void searchEvent(String eventName, Label label, Statement statement) {
         int counter = 1;
         String events = "";
         try {
-            Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM events WHERE eventName LIKE '%" + eventName + "%'");
             while (resultSet.next()) {
                 String eventName1 = resultSet.getString(2);

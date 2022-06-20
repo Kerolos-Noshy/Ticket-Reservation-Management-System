@@ -9,7 +9,6 @@ import javafx.scene.control.*;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.Date;
 import java.sql.*;
 
@@ -98,7 +97,7 @@ public class SystemManager {
             while (resultSet.next()) {
                 if (resultSet.getString(1).equals(username.getText()) && resultSet.getString(2).equals(password.getText())) {
                     TicketReservation.adminHome();
-                    checkEventsData(statement);
+                    checkEventsDate(statement);
 
                 }
                 else
@@ -119,7 +118,7 @@ public class SystemManager {
             while (resultSet.next()) {
                 if (resultSet.getString(1).equals(username.getText()) && resultSet.getString(2).equals(password.getText())) {
                     TicketReservation.employeeHome();
-                    checkEventsData(statement);
+                    checkEventsDate(statement);
 
                 }
                 else
@@ -173,7 +172,7 @@ public class SystemManager {
     }
 
     //turn upcoming event into previous event if current date > event date
-    private void checkEventsData(Statement statement) {
+    private void checkEventsDate(Statement statement) {
         ResultSet resultSet;
         try {
             resultSet = statement.executeQuery("select current_date");
@@ -389,7 +388,13 @@ public class SystemManager {
 
     @FXML
     private void searchEvent()  {
-            Event.searchEvent(name.getText(), label, connection);
+        try {
+            Statement statement = connection.createStatement();
+            Event.searchEvent(name.getText(), label, statement);
+        } catch (SQLException e) {
+            throw new RuntimeException();
+        }
+
     }
 
     @FXML
@@ -421,7 +426,7 @@ public class SystemManager {
         try {
             Statement statement = connection.createStatement();
             if (Category.isCategoryExist(name3.getText(), statement)) {
-                Event.retrieveEvent(name3.getText(), label2, connection);
+                Event.retrieveEvent(name3.getText(), label2, statement);
             } else {
                 try {
                     throw new NotFound(name3.getText());
@@ -448,35 +453,28 @@ public class SystemManager {
             if (Category.isCategoryExist(name1.getText(),statement)) {
                 if (Event.isEventExist(name2.getText(), statement)) {
                     if (Event.isEventBooked(name2.getText(), name.getText(), statement) == false) {
-                        ResultSet resultSet;
-
-
-                            resultSet = statement.executeQuery("SELECT * FROM clients WHERE clientName = '" + name.getText() + "'");
-                            String serialNum = resultSet.getString(1);
-                            resultSet = statement.executeQuery("SELECT * FROM events WHERE eventName = '" + name2.getText() + "'");
-                            int availableTickets = resultSet.getInt(4);
-                            try {
-                                if (availableTickets > 0) {
-                                    availableTickets = availableTickets - 1;
-                                } else
-                                    throw new NoAvailableTickets();
-                            } catch (NoAvailableTickets e) {
-                                label.setText(e.getMessage());
-                            }
-
-                            resultSet.next();
-
-                            if (resultSet.getInt(4) > 0) {
-                                preparedStatement = connection.prepareStatement("insert into upcomingEvents (upcomingEvent,clientSerial)values(?,?)");
-                                preparedStatement.setString(1, name2.getText());
-                                preparedStatement.setString(2, serialNum);
-                                preparedStatement.executeUpdate();
-                                //preparedStatement = connection.prepareStatement("update clients set upcomingEvents = '" + eventName + "' WHERE clientName = '" + clientName + "'");
-
-                                label.setText("Event Booked Successfully");
-                                preparedStatement = connection.prepareStatement("update events set availableTickets = '" + availableTickets + "' WHERE eventName = '" + name2.getText() + "'");
-                                preparedStatement.executeUpdate();
-                            }
+                        ResultSet resultSet = statement.executeQuery("SELECT * FROM clients WHERE clientName = '" + name.getText() + "'");
+                        String serialNum = resultSet.getString(1);
+                        resultSet = statement.executeQuery("SELECT * FROM events WHERE eventName = '" + name2.getText() + "'");
+                        int availableTickets = resultSet.getInt(4);
+                        try {
+                            if (availableTickets > 0) {
+                                availableTickets = availableTickets - 1;
+                            } else
+                                throw new NoAvailableTickets();
+                        } catch (NoAvailableTickets e) {
+                            label.setText(e.getMessage());
+                        }
+                        resultSet.next();
+                        if (resultSet.getInt(4) > 0) {
+                            preparedStatement = connection.prepareStatement("insert into upcomingEvents (upcomingEvent,clientSerial)values(?,?)");
+                            preparedStatement.setString(1, name2.getText());
+                            preparedStatement.setString(2, serialNum);
+                            preparedStatement.executeUpdate();
+                            label.setText("Event Booked Successfully");
+                            preparedStatement = connection.prepareStatement("update events set availableTickets = '" + availableTickets + "' WHERE eventName = '" + name2.getText() + "'");
+                            preparedStatement.executeUpdate();
+                        }
                     } else
                         throw new AlreadyExist("Event is already booked");
 
@@ -511,10 +509,7 @@ public class SystemManager {
                 if (Category.isCategoryExist(name1.getText(),statement)) {
                     if (Event.isEventExist(name2.getText(), statement)) {
                         if (Event.isEventBooked(name2.getText(), name.getText(), statement)) {
-                            ResultSet resultSet;
-
-
-                            resultSet = statement.executeQuery("SELECT * FROM clients WHERE clientName = '" + name.getText() + "'");
+                            ResultSet resultSet = statement.executeQuery("SELECT * FROM clients WHERE clientName = '" + name.getText() + "'");
                             resultSet.next();
                             String serialNum = resultSet.getString(1);
                             preparedStatement = connection.prepareStatement("DELETE FROM upcomingEvents where clientSerial = '" + serialNum + "' and upcomingEvent = '" + name2.getText() +"'");
@@ -609,11 +604,9 @@ public class SystemManager {
             if (Category.isCategoryExist(name1.getText(), statement)) {
                 // check if new category name is already exist
                 if (!Category.isCategoryExist(name2.getText(), statement)) {
-                    ResultSet resultSet;
-
                     preparedStatement = connection.prepareStatement("update categories set categoryName = '" + name2.getText() + "' WHERE categoryName = '" + name1.getText() + "'");
                     preparedStatement.executeUpdate();
-                    resultSet = statement.executeQuery("SELECT * FROM events");
+                    ResultSet resultSet = statement.executeQuery("SELECT * FROM events");
                     while (resultSet.next()) {
                         preparedStatement = connection.prepareStatement("update events set category = '" + name2.getText() + "' WHERE category = '" + name1.getText() + "'");
                         preparedStatement.executeUpdate();
@@ -724,8 +717,6 @@ public class SystemManager {
         Statement statement;
         ResultSet resultSet;
         try {
-            connection.close();
-            connection = DbConnection.ConnectionDB();
             statement = connection.createStatement();
             if (Category.isCategoryExist(name5.getText(), statement)) {
                 if (Event.isEventExist(name6.getText(), statement)) {
@@ -785,7 +776,7 @@ public class SystemManager {
             Statement statement = connection.createStatement();
             if (Category.isCategoryExist(name5.getText(), statement)) {
                 if (Event.isEventExist(name6.getText(), statement)) {
-                    String[] eventData = Event.getEventData(name6.getText(), connection);
+                    String[] eventData = Event.getEventData(name6.getText(), statement);
                     if (eventData != null) {
                         name8.setText(eventData[0]);
                         number1.setText(eventData[1]);

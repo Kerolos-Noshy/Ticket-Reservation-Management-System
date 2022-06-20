@@ -415,7 +415,7 @@ public class SystemManager {
                 throw new NotFound(name1.getText());
 
         }  else
-            throw new NotFound(name1.getText());
+            throw new NotFound(name.getText());
 
         }
         catch (AlreadyExist e){

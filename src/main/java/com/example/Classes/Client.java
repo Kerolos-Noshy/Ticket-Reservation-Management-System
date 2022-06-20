@@ -22,10 +22,9 @@ public class Client
         serialNumber = number;
     }
 
-    public static boolean isClientExist(String clientName, Connection connection) {
+    public static boolean isClientExist(String clientName, Statement statement) {
         ResultSet resultSet;
         try {
-            Statement statement = connection.createStatement();
             resultSet = statement.executeQuery("SELECT * FROM clients");
             while (resultSet.next()) {
                 if (resultSet.getString(2).equals(clientName))

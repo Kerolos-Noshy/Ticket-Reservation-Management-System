@@ -26,10 +26,9 @@ public class Event
         this.eTime = eTime;
     }
 
-    public static boolean isEventBooked(String eventName, String clientName, Connection connection) {
+    public static boolean isEventBooked(String eventName, String clientName, Statement statement) {
         ResultSet resultSet;
         try {
-            Statement statement = connection.createStatement();
             resultSet = statement.executeQuery("select serialNumber from clients where clientName = '" + clientName + "'");
             resultSet.next();
             int clientSerialNumber = resultSet.getInt(1);
@@ -63,10 +62,9 @@ public class Event
         label.setText(events);
     }
 
-    public static boolean isEventExist(String eventName, Connection connection) {
+    public static boolean isEventExist(String eventName, Statement statement) {
         ResultSet resultSet;
         try {
-            Statement statement = connection.createStatement();
             resultSet = statement.executeQuery("SELECT * FROM events");
             while(resultSet.next()) {
                 if (resultSet.getString(2).equals(eventName))

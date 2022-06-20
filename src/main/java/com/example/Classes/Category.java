@@ -16,10 +16,9 @@ public class Category {
         this.categoryName = categoryName;
     }
 
-    public static boolean isCategoryExist(String categoryName, Connection connection) {
+    public static boolean isCategoryExist(String categoryName, Statement statement) {
         ResultSet resultSet;
         try {
-            Statement statement = connection.createStatement();
             resultSet = statement.executeQuery("SELECT * FROM categories");
             while (resultSet.next()) {
                 if (resultSet.getString(1).equals(categoryName))
@@ -32,11 +31,10 @@ public class Category {
         return false;
     }
 
-    public static void viewEvents(String eventName, Label label, Connection connection) {
+    public static void viewEvents(String eventName, Label label, Statement statement) {
         String event ="";
-        if (Event.isEventExist(eventName,connection)){
+        if (Event.isEventExist(eventName,statement)){
             try {
-                Statement statement = connection.createStatement();
                 ResultSet resultSet = statement.executeQuery("SELECT * FROM events WHERE eventName = '" + eventName + "'");
 
                 resultSet.next();

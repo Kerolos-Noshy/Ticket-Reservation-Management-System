@@ -31,7 +31,10 @@ tickets.
    - Unbook any event of the upcoming events of any client.
 
 ## Screenshots
+![Home Page](https://github.com/Kerolos-Noshy/Ticket-Reservation-Management-System/blob/main/screen%20shots/screen%20shots/home%20page.png)
 ### Admin
+![Admin Login Screen](https://github.com/Kerolos-Noshy/Ticket-Reservation-Management-System/blob/main/screen%20shots/screen%20shots/Admin/login.png)
+
 ![Admin Home Screen](https://github.com/Kerolos-Noshy/Ticket-Reservation-Management-System/blob/main/screen%20shots/screen%20shots/Admin/admin%20home%20page.png) 
 
 ![Add/Remove Category](https://github.com/Kerolos-Noshy/Ticket-Reservation-Management-System/blob/main/screen%20shots/screen%20shots/Admin/add%20category.png)
@@ -39,6 +42,8 @@ tickets.
 ![Edit Category](https://github.com/Kerolos-Noshy/Ticket-Reservation-Management-System/blob/main/screen%20shots/screen%20shots/Admin/edit%20category.png)
 
 ![Add event](https://github.com/Kerolos-Noshy/Ticket-Reservation-Management-System/blob/main/screen%20shots/screen%20shots/Admin/add%20event.png)
+
+![Edit Event](https://github.com/Kerolos-Noshy/Ticket-Reservation-Management-System/blob/main/screen%20shots/screen%20shots/Admin/edit%20event.png)
 
 ![Remove Event](https://github.com/Kerolos-Noshy/Ticket-Reservation-Management-System/blob/main/screen%20shots/screen%20shots/Admin/remove%20event.png)
 

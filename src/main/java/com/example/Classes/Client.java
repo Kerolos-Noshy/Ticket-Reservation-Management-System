@@ -22,18 +22,15 @@ public class Client
         serialNumber = number;
     }
 
-    public static boolean isClientExist(String clientName, Statement statement) {
+    public static boolean isClientExist(String clientName, Statement statement) throws SQLException{
         ResultSet resultSet;
-        try {
-            resultSet = statement.executeQuery("SELECT * FROM clients");
-            while (resultSet.next()) {
-                if (resultSet.getString(2).equals(clientName))
-                    return true;
-            }
-        } catch (SQLException e) {
-            System.out.println("Client Not Found");
-            throw new RuntimeException(e);
+
+        resultSet = statement.executeQuery("SELECT * FROM clients");
+        while (resultSet.next()) {
+            if (resultSet.getString(2).equals(clientName))
+                return true;
         }
+
         return false;
     }
 }

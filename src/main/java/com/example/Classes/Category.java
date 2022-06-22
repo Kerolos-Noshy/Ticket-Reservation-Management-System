@@ -16,48 +16,39 @@ public class Category {
         this.categoryName = categoryName;
     }
 
-    public static boolean isCategoryExist(String categoryName, Statement statement) {
+    public static boolean isCategoryExist(String categoryName, Statement statement) throws SQLException{
         ResultSet resultSet;
-        try {
-            resultSet = statement.executeQuery("SELECT * FROM categories");
-            while (resultSet.next()) {
-                if (resultSet.getString(1).equals(categoryName))
-                    return true;
-            }
-        } catch (SQLException e) {
-            System.out.println("Category Not Found");
-            throw new RuntimeException(e);
+
+        resultSet = statement.executeQuery("SELECT * FROM categories");
+        while (resultSet.next()) {
+            if (resultSet.getString(1).equals(categoryName))
+                return true;
         }
         return false;
     }
 
-    public static void viewEvents(String eventName, Label label, Statement statement) {
+    public static void viewEvents(String eventName, Label label, Statement statement) throws SQLException {
         String event ="";
         if (Event.isEventExist(eventName,statement)){
-            try {
-                ResultSet resultSet = statement.executeQuery("SELECT * FROM events WHERE eventName = '" + eventName + "'");
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM events WHERE eventName = '" + eventName + "'");
 
-                resultSet.next();
-                String eventName1 = resultSet.getString(2);
-                String location = resultSet.getString(3);
-                int availableTickets = resultSet.getInt(4);
-                int day = resultSet.getInt(5);
-                int month = resultSet.getInt(6);
-                int year = resultSet.getInt(7);
-                String startTime = resultSet.getString(8);
-                String endTime = resultSet.getString(9);
-                Date date = new Date(year, month,day);
+            resultSet.next();
+            String eventName1 = resultSet.getString(2);
+            String location = resultSet.getString(3);
+            int availableTickets = resultSet.getInt(4);
+            int day = resultSet.getInt(5);
+            int month = resultSet.getInt(6);
+            int year = resultSet.getInt(7);
+            String startTime = resultSet.getString(8);
+            String endTime = resultSet.getString(9);
+            Date date = new Date(year, month,day);
 
-                event += "\nEvent Name: " + eventName1 + "\nLocation: " + location +
-                        "\nNumber of Available Tickets: " + availableTickets+
-                        "\nDate: " + LocalDate.of(year, month, day).getDayOfWeek().name()+"  "+ date.getDate()+
-                        "/"+(date.getMonth())+"/"+ date.getYear() +"\nStart Time: " + startTime+
-                        "\nEnd Time: " + endTime;
-                label.setText(event);
-            }
-            catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
+            event += "\nEvent Name: " + eventName1 + "\nLocation: " + location +
+                     "\nNumber of Available Tickets: " + availableTickets +
+                     "\nDate: " + LocalDate.of(year, month, day).getDayOfWeek().name() + "  " + date.getDate() +
+                     "/"+ (date.getMonth()) + "/" + date.getYear() + "\nStart Time: " + startTime +
+                     "\nEnd Time: " + endTime;
+            label.setText(event);
         } else {
             try {
                 if (event.equals(""))
